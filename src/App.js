@@ -6,31 +6,31 @@ const phonebookData = [
     {
         id: 1,
         firstname: "Roald",
-        lastname: "Midteide",
+        lastname: "Johnsen",
         phonenumber: "41214624"
     },
     {
         id: 2,
         firstname: "Grete",
-        lastname: "Midteide",
+        lastname: "Swanosn",
         phonenumber: "5124532"
     },
     {
         id: 3,
         firstname: "Alexander",
-        lastname: "Midteide",
+        lastname: "Smith",
         phonenumber: "93065250"
     },
     {
         id: 4,
         firstname: "Cecilie",
-        lastname: "Midteide",
+        lastname: "Tyler",
         phonenumber: "41242324"
     },
     {
         id: 5,
         firstname: "Camilla",
-        lastname: "Midteide",
+        lastname: "Pitt",
         phonenumber: "9342423"
     }
 ]
@@ -48,7 +48,7 @@ const useStateWithLocalStorage = localStorageKey => {
   };
 
 export const Phonebook = (props, klasse) => {
-    console.log("props:", props)
+    //console.log("props:", props)
     
     return (
         <div>
@@ -72,159 +72,121 @@ const App = () => {
     const [tempPhonenumber,setTempPhonenumber]  = React.useState('');
     const [sortBy,setSortBy]  = React.useState('firstname');
     const [count,setCount]  = React.useState(0);
-   
+    const [desc, setDesc] = React.useState(false); // added
 
-    const deleteEntry = (itemId) => {
-        console.log("FARDI",itemId)
-        const items = phonebookEntries.filter(item => item.id !== itemId);
-        setPhonebookEntries(items);
-        // setState(prevState => {
-        //     const entries = prevState.phonebookEntries.filter(entry => entry.id !== entryToDelete);
-        //     return { entries };
-        // });
-        console.log("MORDI", phonebookEntries)
-
-    }
-    //const sortEntries = () =>{
-    function sortEntries2() {
-        //const entries = phonebookEntries;
-        //setCount(count + 1)
-        const newEntries = [...phonebookEntries]
-        switch (sortBy){
-            case "firstname":
-                    //newEntries =  newEntries.sort((a, b) => a.firstname > b.firstname ? 1: -1 || a.lastname > b.lastname ? 1: -1 );
-                newEntries.sort((a, b) => a.firstname > b.firstname ? 1: -1 );
-                break;
-            case "lastname":
-                newEntries.sort((a, b) => a.lastname > b.lastname ? 1: -1);
-                console.log("ASDOIOIJASOD")
-                //newEntries =  newEntries.sort((a, b) => a.lastname > b.lastname ? 1: -1 || a.firstname > b.firstname ? 1: -1);
-                break;
-            case "id":
-                newEntries.sort((a, b) => a.id > b.id ? 1: -1);
-                break;
-            case "phonenumber":
-                newEntries.sort((a, b) => a.phonenumber > b.phonenumber ? 1: -1);
-                break;
-             case "firstnameRev":
-                    //newEntries =  newEntries.sort((a, b) => a.firstname < b.firstname ? 1: -1 || a.lastname < b.lastname ? 1: -1 );
-                    newEntries.sort((a, b) => a.firstname < b.firstname ? 1: -1 );
-                    console.log("FIRSTNAMEREVSWITCH")
-                    break;
-            case "lastnameRev":
-                    //newEntries =  newEntries.sort((a, b) => a.lastname < b.lastname ? 1: -1 || a.firstname < b.firstname ? 1: -1);                
-                    newEntries.sort((a, b) => a.lastname < b.lastname ? 1: -1 );                
-                break;
-            case "idRev":
-                newEntries.sort((a, b) => a.id < b.id ? 1: -1);
-                break;
-            case "phonenumberRev":
-                newEntries.sort((a, b) => a.phonenumber < b.phonenumber ? 1: -1);
-                break;
-            default:
-                break;
-
-        }
-        setPhonebookEntries(newEntries);
-        console.table(phonebookEntries)
-        
-            //sortEntries();
-    }
-
-
-    const sortEntries = (field, desc) => {
-        const newEntries = [...phonebookEntries];
-        newEntries.sort((a, b) => b[field] - a[field]);
-        
-        if (desc) newEntries.reverse();
-        
-        setPhonebookEntries(newEntries);
-      }
-
+    const deleteEntry = itemId => {
+        // changed
+        setPhonebookEntries(prevState =>
+          prevState.filter(({ id }) => id !== itemId)
+        );
+      };
+    
+      const sortEntries = React.useCallback(
+        // changed
+        (field, desc) => {
+            console.log("field: " + field + " desc: " + desc)
+          setPhonebookEntries(prevState => {
+            const newEntries = [...prevState];
+            //const newEntries = prevState;
+            newEntries.sort((a, b) => (b[field] < a[field] ? 1 : -1));
+            //newEntries.sort((a, b) => (b[field] > a[field] ? 1 : -1));
+    
+            if (desc) newEntries.reverse();
+    
+            return newEntries;
+          });
+        },
+        [setPhonebookEntries]
+      );
 
     const getID = () => {
-        const { library } = phonebookEntries;
+
         var tempState = phonebookEntries;
         var value=0;
         tempState.forEach( (person) => {
-            console.log("PERSON", person)
             if (person.id > value) value=person.id;
         })
         return ++value;
     }
 
     React.useEffect(() => {
-        //console.log("USEEFFECT SORTBY: ", sortBy, " Count: ", count)
-        sortEntries()
-    },[sortBy, sortEntries])
+        // changed
+        sortEntries(sortBy, desc);
+        //sortEntries("lastname", false);
+      }, [sortBy, sortEntries, desc]);
 
-    function handleClick(e) {
-        console.log(e.target.value)
-        let temp = '';
+
+      const handleClick = e => {
+        let descending=desc;
         if (sortBy === e.target.value) {
-            temp = e.target.value + "Rev";
-            console.log("TOGGGGGGGGLE " + sortBy + ' ' + temp);
-        } else {
-            temp = e.target.value;
-            console.log("asdasdsa " + sortBy + ' ' );
-        }
-       setSortBy(temp); 
-    }
-
+            
+            //return setDesc(prevState => !prevState)
+            descending=!descending;
+        } else descending = false     
+        console.log("Sortby: " + sortBy + " e.target.value: " + e.target.value, " DESCENDING: " + descending)
+        setSortBy(e.target.value);
+        setDesc(descending);
+        console.table(phonebookEntries)
+        };
     
-    React.useEffect(() => {
-        setCount(prevCount => prevCount + 1);
-    }, [phonebookEntries, setCount])
-
+      React.useEffect(() => {
+        // changed
+        //setCount(prevCount => prevCount + 1);
+        //console.log("Count: " + count)
+      }, [phonebookEntries, setCount, count]);
+    
+      const addEntry = (event) => {
+        setPhonebookEntries(prevState => ([ ...prevState, { 
+            id: getID(),
+        firstname: tempFirstname,
+        lastname: tempLastname,
+        phonenumber: tempPhonenumber
+    }]))
+    
+}
     return (
         <div className="App">
             <div className="container">
                 <div className="row">
                 <div className="col-6">
                     <p>Sorter etter: </p>
+
                     <button type="button" value="firstname" className="btn btn-primary" 
-                    onClick={e => handleClick(e)}>Fornavn</button>
-                        <button type="button" value="lastname" className="btn btn-primary" 
-                    onClick={e => handleClick(e)}>Etternavn</button>
-                        <button type="button" value="phonenumber" className="btn btn-primary" 
-                    onClick={e => handleClick(e)}>Telefonnummer</button>
-                        <button type="button" value="id" className="btn btn-primary" 
-                    onClick={e => handleClick(e)}>ID</button>
+                        onClick={e => handleClick(e)}>Fornavn</button>
+
+                    <button type="button" value="lastname" className="btn btn-primary" 
+                        onClick={e => handleClick(e)}>Etternavn</button>
+
+                    <button type="button" value="phonenumber" className="btn btn-primary" 
+                        onClick={e => handleClick(e)}>Telefonnummer</button>
+
+                    <button type="button" value="id" className="btn btn-primary" 
+                        onClick={e => handleClick(e)}>ID</button>
                     
-                    
-                        {phonebookEntries.map(item => <Phonebook onDelete={deleteEntry} key={item.id} item={item} />)}
-                    </div>
-                    <div className="col-6">
-                        <form >
-                            <h1>Legg til person:</h1>
-                            <input name="InputFirstname" type="text" placeholder="Fornavn" onChange={(e) => {
-                                setTempFirstname(e.target.value)
+                    {phonebookEntries.map(item => <Phonebook onDelete={deleteEntry} key={item.id} item={item} />)}
+                </div>
+                <div className="col-6">
+                    <form >
+                        <h1>Legg til person:</h1>
+                        <input name="inputFirstname" type="text" placeholder="Fornavn" onChange={(e) => {
+                            setTempFirstname(e.target.value)
                             }} required />
-                            <input name="InputLastname" type="text" placeholder="Etternavn" onChange={(e) => {
-                                setTempLastname(e.target.value)
+
+                        <input name="inputLastname" type="text" placeholder="Etternavn" onChange={(e) => {
+                            setTempLastname(e.target.value)
                             }} required />
-                            <input name="InputPhonenumber" type="number" placeholder="Mobilnr" onChange={(e) => {
-                                setTempPhonenumber(e.target.value)
+                        
+                        <input name="inputPhonenumber" type="number" placeholder="Mobilnr" onChange={(e) => {
+                            setTempPhonenumber(e.target.value)
                             }} required />
-                            <br/>
-                            <button type="button" className="btn btn-primary" name="btnAddPerson"  placeholder="Legg til" onClick={props => {
-                                console.log("tempFirstname: ", tempFirstname)
-                                console.log("tempLast: ", tempLastname)
-                                console.log("tempPhonenr: ", tempPhonenumber)
-                                console.log("KLIKK", props)
-                                let tempID = getID();
-                                setPhonebookEntries({phonebookEntries: [...phonebookEntries, {
-                                    id: tempID,
-                                    firstname: tempFirstname,
-                                    lastname: tempLastname,
-                                    phonenumber: tempPhonenumber
-                                }]})
-                                console.log(phonebookEntries)
-                            }} >Legg til </button>
-                        </form>
-                    </div>
+                        
+                        <br/>
+                        <button type="button" className="btn btn-primary" name="btnAddPerson"  placeholder="Legg til" onClick={addEntry} >
+                            Legg til </button>
+                    </form>
                 </div>
             </div>
+        </div>
             
             
         </div>
