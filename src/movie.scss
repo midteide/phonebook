@@ -69,3 +69,182 @@
     text-align: center;
 }
 
+#fakebox {
+    background: white;
+    border-radius: 22px;
+    box-shadow: 0 1px 6px 0 rgba(32, 33, 36, .28);
+    box-sizing: border-box;
+    cursor: text;
+    font-size: 16px;
+    height: 44px;
+    margin: 0 auto;
+    max-width: 584px;
+    opacity: 1;
+    position: relative;
+    transition: none;
+}
+#fakebox-text {
+    bottom: 0;
+    color: rgb(117, 117, 117);
+    font-size: 16px;
+    height: 44px;
+    left: 0;
+    line-height: 44px;
+    margin: auto 0;
+    overflow: hidden;
+    padding-inline-start: 48px;
+    position: absolute;
+    right: 44px;
+    text-align: initial;
+    text-overflow: ellipsis;
+    top: 0;
+    user-select: none;
+    vertical-align: middle;
+    visibility: inherit;
+    white-space: nowrap;
+}
+#fakebox-container {
+    margin: 0 auto 0 auto;
+    min-width: 410px;
+    width: var(--content-width);
+}
+#fakebox > input {
+    bottom: 0;
+    box-sizing: border-box;
+    left: 0;
+    margin: 0;
+    opacity: 0;
+    padding-inline-start: 20px;
+    position: absolute;
+    top: 0;
+    width: 100%;
+}
+input {
+    -webkit-writing-mode: horizontal-tb !important;
+    text-rendering: auto;
+    color: initial;
+    letter-spacing: normal;
+    word-spacing: normal;
+    text-transform: none;
+    text-indent: 0px;
+    text-shadow: none;
+    display: inline-block;
+    text-align: start;
+    -webkit-appearance: textfield;
+    background-color: white;
+    -webkit-rtl-ordering: logical;
+    cursor: text;
+    margin: 0em;
+    font: 400 11px system-ui;
+    padding: 1px;
+    border-width: 2px;
+    border-style: inset;
+    border-color: initial;
+    border-image: initial;
+}
+#fakebox-search-icon {
+    -webkit-mask-image: url(http://www.google.com/data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zd…M3LjAxIDUgOS41IDUgMTQgNy4wMSAxNCA5LjUgMTEuOTkgMTQgOS41IDE0eiIvPjwvc3ZnPg==);
+    -webkit-mask-repeat: no-repeat;
+    -webkit-mask-size: 100%;
+    background: 24px 24px rgb(117, 117, 117);
+    bottom: 0;
+    height: 24px;
+    left: 0;
+    margin: auto 0;
+    margin-inline-start: 16px;
+    position: absolute;
+    top: 0;
+    width: 24px;
+}
+fakebox-cursor {
+    background: #333;
+    bottom: 14px;
+    left: 48px;
+    position: absolute;
+    top: 14px;
+    visibility: hidden;
+    width: 1px;
+}
+#fakebox-microphone {
+    background: url(data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zd…cgMCA2Ljk4LTMuMTQgNi45OC03aC0yYzAgMi43Ni0yLjIzIDUtNC45OSA1eiIvPjwvc3ZnPg==) no-repeat center;
+    background-size: 21px 21px;
+    bottom: 0;
+    cursor: pointer;
+    margin-inline-end: 16px;
+    padding: 22px 12px 0;
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 21px;
+}
+
+#logo, #fakebox-container {
+    flex-shrink: 0;
+}
+#logo {
+    height: calc(var(--logo-height) + var(--logo-margin-bottom));
+    margin-top: var(--logo-margin-top);
+    min-height: fit-content;
+    position: relative;
+}
+#logo, #fakebox-container {
+    flex-shrink: 0;
+}
+
+
+#getSuggestionButton {
+    display: block;
+    margin: 0 auto;
+    margin-bottom: 1rem;    
+    margin-top:1rem;
+}
+
+.cardStyle {
+    display:block;
+    margin: 0 auto;
+}
+
+.mainTitle {
+    font-family: 'Black Ops One', cursive;
+    text-align: center;
+    align-content: center;
+    display: block;
+    font-size: 2em;
+    margin: auto auto;
+    margin-bottom:1em;
+}
+#topSpace {
+    padding-bottom: 5em;
+    padding-top: 5em;
+    width:100%;
+}
+
+.resultsText {
+    font-family: 'Wallpoet', cursive;
+    text-align: center;
+    align-content: center;
+    display: block;
+    font-size: 2em;
+    margin: auto auto;
+    margin-bottom:2em;
+}
+
+.mainIcon {
+    align-content: center;
+    display:block;
+    margin: 0 auto;
+    object-fit: scale-down;
+    width: 8em;
+}
+
+body {
+    margin-left: 1em;
+    margin-right: 1em;
+}
+
+/*
+font-family: 'Wallpoet', cursive;
+font-family: 'Black Ops One', cursive;
+font-family: 'Fredericka the Great', cursive;
+font-family: 'Allerta Stencil', sans-serif;
+*/
